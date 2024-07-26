@@ -1,3 +1,5 @@
+// script.js
+
 document.addEventListener('DOMContentLoaded', () => {
     const taskForm = document.getElementById('task-form');
     const taskInput = document.getElementById('task-input');
@@ -35,6 +37,16 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         li.appendChild(taskContent);
+
+        const deleteButton = document.createElement('button');
+        deleteButton.classList.add('delete-button');
+        deleteButton.textContent = 'Delete';
+        deleteButton.addEventListener('click', (e) => {
+            e.stopPropagation();
+            li.remove();
+        });
+
+        li.appendChild(deleteButton);
 
         taskList.appendChild(li);
 
