@@ -13,7 +13,7 @@ body {
     background: white;
     padding: 20px;
     border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     width: 300px;
 }
 
@@ -24,7 +24,7 @@ h1 {
 form {
     display: flex;
     flex-direction: column;
-    margin-bottom: 20px;
+    margin-top: 20px;
 }
 
 input[type="text"] {
@@ -50,6 +50,7 @@ button:hover {
 ul {
     list-style: none;
     padding: 0;
+    margin: 0;
 }
 
 li {
@@ -58,7 +59,15 @@ li {
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     cursor: pointer;
+    word-break: break-all;
+}
+
+li.dragging {
+    opacity: 0.5;
 }
 
 .note {
@@ -66,4 +75,43 @@ li {
     margin-top: 5px;
     font-size: 0.9em;
     color: #555;
+    word-break: break-all;
+}
+
+.task-content {
+    flex-grow: 1;
+    word-break: break-all;
+}
+
+.task-buttons {
+    display: flex;
+    flex-direction: column;
+}
+
+.task-buttons button {
+    margin-top: 2px;
+    margin-bottom: 2px;
+    background: #007BFF;
+    border: none;
+    color: white;
+    padding: 5px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.task-buttons button:hover {
+    background: #0056b3;
+}
+
+.delete-button {
+    background: #dc3545;
+    border: none;
+    color: white;
+    padding: 5px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.delete-button:hover {
+    background: #c82333;
 }

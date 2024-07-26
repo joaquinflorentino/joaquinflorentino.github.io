@@ -13,21 +13,55 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function addTask(task, note) {
         const li = document.createElement('li');
-        li.textContent = task;
+        li.setAttribute('draggable', 'true');
+        li.classList.add('task-item');
+
+        const taskContent = document.createElement('div');
+        taskContent.classList.add('task-content');
+        taskContent.textContent = task;
 
         if (note) {
             const noteElement = document.createElement('div');
             noteElement.classList.add('note');
             noteElement.textContent = note;
-            li.appendChild(noteElement);
+            taskContent.appendChild(noteElement);
         }
 
-        li.addEventListener('click', () => {
-            const noteElement = li.querySelector('.note');
+        taskContent.addEventListener('click', () => {
+            const noteElement = taskContent.querySelector('.note');
             if (noteElement) {
                 noteElement.style.display = noteElement.style.display === 'none' ? 'block' : 'none';
             }
         });
+
+        li.appendChild(taskContent);
+
         taskList.appendChild(li);
+
+        li.addEventListener('dragstart', (e) => {
+            e.dataTransfer.effectAllowed = 'move';
+            e.dataTransfer.setData('text/plain', null);
+            setTimeout(() => {
+                li.classList.add('dragging');
+            }, 0);
+        });
+
+        li.addEventListener('dragend', () => {
+            li.classList.remove('dragging');
+        });
+
+        li.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            const draggingElement = taskList.querySelector('.dragging');
+            if (draggingElement !== li) {
+                const bounding = li.getBoundingClientRect();
+                const offset = bounding.y + bounding.height / 2;
+                if (e.clientY - offset > 0) {
+                    taskList.insertBefore(draggingElement, li.nextSibling);
+                } else {
+                    taskList.insertBefore(draggingElement, li);
+                }
+            }
+        });
     }
 });
