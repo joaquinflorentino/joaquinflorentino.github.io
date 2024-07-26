@@ -14,6 +14,20 @@ document.addEventListener('DOMContentLoaded', () => {
     function addTask(task, note) {
         const li = document.createElement('li');
         li.textContent = task;
+
+        if (note) {
+            const noteElement = document.createElement('div');
+            noteElement.classList.add('note');
+            noteElement.textContent = note;
+            li.appendChild(noteElement);
+        }
+
+        li.addEventListener('click', () => {
+            const noteElement = li.querySelector('.note');
+            if (noteElement) {
+                noteElement.style.display = noteElement.style.display === 'none' ? 'block' : 'none';
+            }
+        });
         taskList.appendChild(li);
     }
 });
