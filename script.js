@@ -1,19 +1,33 @@
-// script.js
-
 document.addEventListener('DOMContentLoaded', () => {
     const taskForm = document.getElementById('task-form');
     const taskInput = document.getElementById('task-input');
     const noteInput = document.getElementById('note-input');
+    const categorySelect = document.getElementById('category-select');
     const taskList = document.getElementById('task-list');
+    const toCategoriesButton = document.getElementById('to-categories');
+
+    toCategoriesButton.addEventListener('click', () => {
+        window.location.href = 'categories.html';
+    });
+
+    const categories = getCategories();
+    categories.forEach(category => {
+        const option = document.createElement('option');
+        option.value = category.number;
+        option.textContent = `${category.name} (${category.number})`;
+        categorySelect.appendChild(option);
+    });
 
     taskForm.addEventListener('submit', (e) => {
         e.preventDefault();
-        addTask(taskInput.value, noteInput.value);
+        const selectedCategoryNumber = categorySelect.value;
+        addTask(taskInput.value, noteInput.value, selectedCategoryNumber);
         taskInput.value = '';
         noteInput.value = '';
+        categorySelect.value = '';
     });
 
-    function addTask(task, note) {
+    function addTask(task, note, categoryNumber) {
         const li = document.createElement('li');
         li.setAttribute('draggable', 'true');
         li.classList.add('task-item');
@@ -44,6 +58,10 @@ document.addEventListener('DOMContentLoaded', () => {
         deleteButton.addEventListener('click', (e) => {
             e.stopPropagation();
             li.remove();
+            if (categoryNumber) {
+                incrementCategoryNumber(categoryNumber);
+                alert('hello');
+            }
         });
 
         li.appendChild(deleteButton);
@@ -75,5 +93,34 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
         });
+    }
+
+    function incrementCategoryNumber(categoryNumber) {
+        const categories = getCategories();
+        const category = categories.find(cat => cat.number == categoryNumber);
+        if (category) {
+            category.number += 1;
+            saveCategories(categories);
+            updateCategoryDropdown();
+        }
+    }
+
+    function saveCategories(categories) {
+        localStorage.setItem('categories', JSON.stringify(categories));
+    }
+
+    function updateCategoryDropdown() {
+        categorySelect.innerHTML = '<option value="">Select Category (None)</option>';
+        const categories = getCategories();
+        categories.forEach(category => {
+            const option = document.createElement('option');
+            option.value = category.number;
+            option.textContent = `${category.name} (${category.number})`;
+            categorySelect.appendChild(option);
+        });
+    }
+
+    function getCategories() {
+        return JSON.parse(localStorage.getItem('categories')) || [];
     }
 });
