@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
     categoryForm.addEventListener('submit', (e) => {
         e.preventDefault();
         const categoryName = categoryInput.value;
-        const newNumber = getNextNumber();
+        const newNumber = 0;
         addCategory(categoryName, newNumber);
         categoryInput.value = '';
 

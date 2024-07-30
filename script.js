@@ -60,7 +60,6 @@ document.addEventListener('DOMContentLoaded', () => {
             li.remove();
             if (categoryNumber) {
                 incrementCategoryNumber(categoryNumber);
-                alert('hello');
             }
         });
 
