@@ -54,19 +54,21 @@ document.addEventListener('DOMContentLoaded', () => {
             taskContent.categoryName = categorySelect.value;
         }
 
-        taskContent.addEventListener('click', () => {
+        li.addEventListener('click', () => {
             const noteElement = taskContent.querySelector('.note');
             if (noteElement) {
                 noteElement.style.display = noteElement.style.display === 'none' ? 'block' : 'none';
             }
         });
-
         li.appendChild(taskContent);
 
-        const deleteButton = document.createElement('button');
-        deleteButton.classList.add('delete-button');
-        deleteButton.textContent = 'Delete';
-        deleteButton.addEventListener('click', (e) => {
+        const taskButtonContainer = document.createElement('div');
+        taskButtonContainer.classList.add('task-button-container');
+        li.appendChild(taskButtonContainer);
+        const doneButton = document.createElement('button');
+        doneButton.id = 'done-button';
+        doneButton.textContent = 'Done';
+        doneButton.addEventListener('click', (e) => {
             e.stopPropagation();
             li.remove();
             if (categoryName) {
@@ -74,9 +76,19 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             saveTasks();
         });
+        li.appendChild(doneButton);
 
+        const deleteButton = document.createElement('button');
+        deleteButton.classList.add('delete-button');
+        deleteButton.textContent = 'Delete';
+        deleteButton.addEventListener('click', (e) => {
+            e.stopPropagation();
+            li.remove();
+            saveTasks();
+        })
         li.appendChild(deleteButton);
-
+        taskButtonContainer.appendChild(doneButton);
+        taskButtonContainer.appendChild(deleteButton);
         taskList.appendChild(li);
 
         li.addEventListener('dragstart', (e) => {

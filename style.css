@@ -50,7 +50,7 @@ input[type="text"], select {
     margin-bottom: 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
-    font-size: 1em;
+    font-size: 0.9em;
 }
 
 button {
@@ -60,7 +60,7 @@ button {
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    font-size: 1em;
+    font-size: 0.9em;
 }
 
 button:hover {
@@ -111,27 +111,22 @@ li.dragging {
     margin-top: 10px;
 }
 
-.task-buttons {
+.task-button-container {
     display: flex;
     flex-direction: column;
-    margin-left: 10px;
-}
+    align-items: flex-start;
+  }
 
-.task-buttons button {
-    margin-top: 2px;
-    margin-bottom: 2px;
-    background: #007BFF;
+#done-button {
+    margin-bottom:5px;
+    background: green;
     border: none;
     color: white;
     padding: 10px;
     border-radius: 4px;
     cursor: pointer;
     white-space: nowrap;
-    font-size: 0.9em;
-}
-
-.task-buttons button:hover {
-    background: #0056b3;
+    font-size: 0.7em;
 }
 
 .delete-button {
@@ -142,7 +137,7 @@ li.dragging {
     border-radius: 4px;
     cursor: pointer;
     white-space: nowrap;
-    font-size: 0.9em;
+    font-size: 0.7em;
 }
 
 .delete-button:hover {
