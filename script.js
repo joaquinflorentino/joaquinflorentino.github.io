@@ -10,6 +10,9 @@ document.addEventListener('DOMContentLoaded', () => {
         window.location.href = 'categories.html';
     });
 
+    const savedTasks = JSON.parse(localStorage.getItem('tasks')) || [];
+    savedTasks.forEach(task => addTask(task.name, task.note, task.categoryName));
+
     const categories = getCategories();
     categories.forEach(category => {
         const option = document.createElement('option');
@@ -24,6 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
         taskInput.value = '';
         noteInput.value = '';
         categorySelect.value = '';
+        saveTasks();
     });
 
     function addTask(task, note, categoryName) {
@@ -41,6 +45,13 @@ document.addEventListener('DOMContentLoaded', () => {
             noteElement.textContent = note;
             taskContent.appendChild(noteElement);
             noteElement.style.display = 'none'
+        }
+
+        if (categoryName) {
+            taskContent.categoryName = categoryName;
+        }
+        else if (categorySelect.value != categorySelect.options[0].value) {
+            taskContent.categoryName = categorySelect.value;
         }
 
         taskContent.addEventListener('click', () => {
@@ -61,6 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (categoryName) {
                 incrementCategoryNumber(categoryName);
             }
+            saveTasks();
         });
 
         li.appendChild(deleteButton);
@@ -121,5 +133,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function getCategories() {
         return JSON.parse(localStorage.getItem('categories')) || [];
+    }
+
+    function saveTasks() {
+        const items = Array.from(taskList.querySelectorAll('.task-item')).map((item, index) => {
+            const taskContent = item.querySelector('.task-content');
+            return {
+                name: taskContent.childNodes[0].textContent,
+                note: item.querySelector('.note') ? item.querySelector('.note').textContent : '',
+                categoryName: taskContent.categoryName
+            };
+        });
+        localStorage.setItem('tasks', JSON.stringify(items));
     }
 });
