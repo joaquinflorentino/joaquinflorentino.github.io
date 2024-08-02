@@ -14,8 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
     categoryForm.addEventListener('submit', (e) => {
         e.preventDefault();
         const categoryName = categoryInput.value;
-        const newNumber = 0;
-        addCategory(categoryName, newNumber);
+        addCategory(categoryName, 0);
         categoryInput.value = '';
 
         saveCategories();
@@ -42,11 +41,6 @@ document.addEventListener('DOMContentLoaded', () => {
         li.appendChild(deleteButton);
 
         categoryList.appendChild(li);
-    }
-
-    function getNextNumber() {
-        const currentCategories = JSON.parse(localStorage.getItem('categories')) || [];
-        return currentCategories.length ? Math.max(...currentCategories.map(c => c.number)) + 1 : 1;
     }
 
     function saveCategories() {

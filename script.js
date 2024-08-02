@@ -13,21 +13,20 @@ document.addEventListener('DOMContentLoaded', () => {
     const categories = getCategories();
     categories.forEach(category => {
         const option = document.createElement('option');
-        option.value = category.number;
+        option.value = category.name;
         option.textContent = `${category.name} (${category.number})`;
         categorySelect.appendChild(option);
     });
 
     taskForm.addEventListener('submit', (e) => {
         e.preventDefault();
-        const selectedCategoryNumber = categorySelect.value;
-        addTask(taskInput.value, noteInput.value, selectedCategoryNumber);
+        addTask(taskInput.value, noteInput.value, categorySelect.value);
         taskInput.value = '';
         noteInput.value = '';
         categorySelect.value = '';
     });
 
-    function addTask(task, note, categoryNumber) {
+    function addTask(task, note, categoryName) {
         const li = document.createElement('li');
         li.setAttribute('draggable', 'true');
         li.classList.add('task-item');
@@ -41,6 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
             noteElement.classList.add('note');
             noteElement.textContent = note;
             taskContent.appendChild(noteElement);
+            noteElement.style.display = 'none'
         }
 
         taskContent.addEventListener('click', () => {
@@ -58,8 +58,8 @@ document.addEventListener('DOMContentLoaded', () => {
         deleteButton.addEventListener('click', (e) => {
             e.stopPropagation();
             li.remove();
-            if (categoryNumber) {
-                incrementCategoryNumber(categoryNumber);
+            if (categoryName) {
+                incrementCategoryNumber(categoryName);
             }
         });
 
@@ -96,7 +96,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function incrementCategoryNumber(categoryNumber) {
         const categories = getCategories();
-        const category = categories.find(cat => cat.number == categoryNumber);
+        const category = categories.find(cat => cat.name == categoryNumber);
         if (category) {
             category.number += 1;
             saveCategories(categories);
@@ -113,7 +113,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const categories = getCategories();
         categories.forEach(category => {
             const option = document.createElement('option');
-            option.value = category.number;
+            option.value = category.name;
             option.textContent = `${category.name} (${category.number})`;
             categorySelect.appendChild(option);
         });
