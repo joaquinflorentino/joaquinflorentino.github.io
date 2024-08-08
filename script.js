@@ -114,6 +114,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 } else {
                     taskList.insertBefore(draggingElement, li);
                 }
+                saveTasks();
             }
         });
     }
