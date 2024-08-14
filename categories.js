@@ -22,6 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function addCategory(name, number) {
         const li = document.createElement('li');
+        li.setAttribute('draggable', 'true');
         li.classList.add('category-item');
 
         const categoryContent = document.createElement('div');
@@ -41,6 +42,33 @@ document.addEventListener('DOMContentLoaded', () => {
         li.appendChild(deleteButton);
 
         categoryList.appendChild(li);
+
+        li.addEventListener('dragstart', (e) => {
+            e.dataTransfer.effectAllowed = 'move';
+            e.dataTransfer.setData('text/plain', null);
+            setTimeout(() => {
+                li.classList.add('dragging');
+            }, 0);
+        });
+
+        li.addEventListener('dragend', () => {
+            li.classList.remove('dragging');
+        });
+
+        li.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            const draggingElement = categoryList.querySelector('.dragging');
+            if (draggingElement !== li) {
+                const bounding = li.getBoundingClientRect();
+                const offset = bounding.y + bounding.height / 2;
+                if (e.clientY - offset > 0) {
+                    categoryList.insertBefore(draggingElement, li.nextSibling);
+                } else {
+                    categoryList.insertBefore(draggingElement, li);
+                }
+                saveCategories();
+            }
+        });
     }
 
     function saveCategories() {

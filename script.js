@@ -89,7 +89,7 @@ document.addEventListener('DOMContentLoaded', () => {
         li.appendChild(deleteButton);
         taskButtonContainer.appendChild(doneButton);
         taskButtonContainer.appendChild(deleteButton);
-        taskList.appendChild(li);
+        taskList.insertBefore(li, taskList.firstChild);
 
         li.addEventListener('dragstart', (e) => {
             e.dataTransfer.effectAllowed = 'move';
